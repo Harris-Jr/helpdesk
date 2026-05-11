@@ -1,0 +1,72 @@
+{
+  "name": "OAG Helpdesk",
+  "short_name": "OAG Helpdesk",
+  "description": "Office of the Auditor General Help Desk Support System",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#06402b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/oag-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/oag-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/oag-favicon.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/oag-logo.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/oag-logo.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["productivity", "business"],
+  "shortcuts": [
+    {
+      "name": "Submit Ticket",
+      "short_name": "New Ticket",
+      "description": "Submit a new support ticket",
+      "url": "/user/submit-ticket",
+      "icons": [
+        {
+          "src": "/oag-logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "My Tickets",
+      "short_name": "My Tickets",
+      "description": "View your support tickets",
+      "url": "/user/dashboard",
+      "icons": [
+        {
+          "src": "/oag-logo.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

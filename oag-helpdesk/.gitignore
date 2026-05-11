@@ -1,0 +1,132 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Node.js
+node_modules/
+npm-debug.log
+npm-debug.log.*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build outputs
+dist/
+build/
+out/
+*.tgz
+*.tar.gz
+
+# Development
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vs/
+
+# Editor
+.editorconfig
+
+# Testing
+coverage/
+.nyc_output/
+.mocha_output/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+postgres*/
+pgdata/
+
+# Uploads
+uploads/
+public/uploads/
+tmp/
+temp/
+
+# Logs
+logs/
+*.log
+debug.log
+
+# Package managers
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+.pnp
+.pnp.js
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*.swo
+*~
+
+# Vite
+.vite/
+
+# Vsce (VS Code Extension)
+*.vsix
+
+# Backend specific
+backend/uploads/
+backend/logs/
+backend/dist/
+
+# Frontend specific
+frontend/dist/
+frontend/build/
+frontend/.cache/
+
+# Misc
+.cache
+.turbo
+*.pid
+*.pid.lock
+.grunt
+.flow-typed/
+.ruby-version
+
+# API keys and secrets (ensure these files are never committed)
+.api-key*
+secret*
+credentials*
+private-key*
+
+# Cache
+.eslintcache
+.prettier.cache
+cache/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Docker
+.docker
+
+# System files
+.env.vault
