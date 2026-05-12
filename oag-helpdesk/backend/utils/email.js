@@ -54,3 +54,43 @@ export async function notifyStaffNewTicket(ticket, staffUsers = []) {
   })));
   return { notified: recipients };
 }
+
+export async function notifyStaffAssignment(ticket, assignedStaffEmail, assignedStaffName = 'Staff Member') {
+  if (!assignedStaffEmail) return { notified: [] };
+
+  const ticketNumber = ticket.ticket_number || ticket.id;
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+      <div style="background-color: #06402b; padding: 20px 24px;">
+        <h2 style="color: white; margin: 0; font-size: 20px;">Ticket Assigned to You</h2>
+        <p style="color: #a3e4d7; margin: 4px 0 0; font-size: 13px;">OAG Helpdesk System Notification</p>
+      </div>
+      <div style="padding: 24px;">
+        <p>Hi <strong>${assignedStaffName}</strong>,</p>
+        <p>A support ticket has been assigned to you for handling.</p>
+        <p style="margin-top: 16px; padding: 12px; background-color: #f3f4f6; border-left: 3px solid #06402b;">
+          <strong>Ticket Number:</strong> ${ticketNumber}<br/>
+          <strong>Title:</strong> ${ticket.title || ''}<br/>
+          <strong>Submitted By:</strong> ${ticket.created_by || 'Unknown'}<br/>
+          <strong>Priority:</strong> ${ticket.priority || 'Medium'}<br/>
+          <strong>Location:</strong> ${ticket.location || 'Not specified'}
+        </p>
+        <p><strong>Description:</strong></p>
+        <p>${ticket.description || 'No description provided'}</p>
+        <p style="margin-top: 20px; text-align: center;">
+          <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/staff/ticket?id=${ticket.id}" 
+             style="display: inline-block; background-color: #06402b; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+            View Ticket in Portal
+          </a>
+        </p>
+      </div>
+    </div>
+  `;
+
+  await sendSystemEmail({
+    to: assignedStaffEmail,
+    subject: `Ticket Assigned: ${ticket.title || ticketNumber}`,
+    html
+  });
+  return { notified: [assignedStaffEmail] };
+}
