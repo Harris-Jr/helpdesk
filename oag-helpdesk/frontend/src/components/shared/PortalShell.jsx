@@ -46,10 +46,28 @@ export default function PortalShell({ portalLabel, user, navItems, onLogout, por
   };
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 overflow-hidden relative">
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setSidebarOpen(false)}
+            className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
       {/* Sidebar */}
       <aside
-        className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 bg-green-700 flex-shrink-0 overflow-hidden`}
+        className={`${
+          sidebarOpen
+            ? 'w-64 translate-x-0'
+            : '-translate-x-full lg:translate-x-0'
+        } lg:w-64 lg:translate-x-0 fixed lg:relative h-full transition-all duration-300 bg-green-700 flex-shrink-0 overflow-hidden z-40 lg:z-auto`}
       >
         <div className="h-full flex flex-col w-64">
           <div className="p-5 border-b border-green-800/40 flex items-center gap-3">
