@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import MagnifyingLoader from '@/components/ui/MagnifyingLoader';
 import { roleHome } from '@/components/auth/RoleGuard';
+import auth from '@/api/auth';
 
 async function resolveUser() {
   try {
-    const agoUser = localStorage.getItem('ago_user');
-    if (agoUser) return JSON.parse(agoUser);
-    const { User } = await import('@/api/entities');
-    return await User.me();
+    const token = localStorage.getItem('oag_access_token');
+    if (!token) return null;
+    return await auth.me();
   } catch {
     return null;
   }
@@ -50,46 +50,8 @@ export default function RootGate() {
       if (!credentials.password) throw new Error('Please enter your password.');
       if (!credentials.email.endsWith('@ago.gov.zm')) throw new Error('Use your @ago.gov.zm email.');
 
-      let authenticatedUser = null;
-      // Try AppUser first
-      try {
-        const { AppUser } = await import('@/api/entities');
-        const existing = await AppUser.filter({ email: credentials.email, is_active: true });
-        if (existing?.length) {
-          const u = existing[0];
-          if (u.password_hash === credentials.password) {
-            authenticatedUser = {
-              id: u.id, email: u.email, full_name: u.full_name, role: u.role,
-              province: u.province, district: u.district, job_title: u.job_title,
-            };
-          }
-        }
-      } catch {}
-
-      // Try Staff
-      if (!authenticatedUser) {
-        try {
-          const { Staff } = await import('@/api/entities');
-          const staff = (await Staff.list()).find(
-            (s) => s.email?.toLowerCase() === credentials.email.toLowerCase() && s.is_active
-          );
-          if (staff && (staff.password_hash === credentials.password || (staff.password_hash === 'password' && credentials.password === 'password'))) {
-            authenticatedUser = {
-              id: staff.id,
-              email: staff.email,
-              full_name: staff.full_name,
-              role: staff.role.toLowerCase().includes('admin') || staff.role.toLowerCase().includes('head') ? 'admin' : 'staff',
-              province: staff.region,
-              job_title: staff.role,
-            };
-          }
-        } catch {}
-      }
-
-      if (!authenticatedUser) throw new Error('Invalid credentials.');
-
-      localStorage.setItem('ago_user', JSON.stringify(authenticatedUser));
-      redirectTo(authenticatedUser, navigate);
+      const user = await auth.login({ email: credentials.email, password: credentials.password });
+      redirectTo(user, navigate);
     } catch (err) {
       setError(err.message || 'Sign-in failed.');
     } finally {
@@ -152,3 +114,4 @@ export default function RootGate() {
     </div>
   );
 }
+
